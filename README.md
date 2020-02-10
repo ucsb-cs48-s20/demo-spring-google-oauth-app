@@ -11,7 +11,7 @@ Starter Code
     Follow the instructions here: <https://ucsb-cs56.github.io/topics/oauth_google_setup>.
 
     - For the application url, use <http://localhost:8080>
-    - For the callback url, also use <http://localhost:8080>
+    - For the callback url, also use <http://localhost:8080/login/oauth2/code/google>
     - Note that on localhost, you typically need use `http` not `https`
 
 2.  You must then copy the file `localhost.json.SAMPLE` to the file `localhost.json`.
