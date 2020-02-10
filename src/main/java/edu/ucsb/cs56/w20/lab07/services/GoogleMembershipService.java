@@ -1,5 +1,8 @@
 package edu.ucsb.cs56.w20.lab07.services;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +21,15 @@ import org.springframework.stereotype.Service;
 public class GoogleMembershipService implements MembershipService {
 
     private Logger logger = LoggerFactory.getLogger(GoogleMembershipService.class);
-
-    @Value("${app.admin.email}")
-    private String adminEmail;
+    
+    // The trailing colon sets empty string as the default
+    // The DefaultConversionService in Config.java allows the List to be used.
+    
+    @Value("${app.admin.emails:}")
+    final private List<String> adminEmails=new ArrayList<String>();
 
     @Value("${app.member.hosted-domain}")
-    private String memberHostedDomain;
+    final private String memberHostedDomain="";
 
     @Autowired
     private OAuth2AuthorizedClientService clientService;
@@ -52,7 +58,7 @@ public class GoogleMembershipService implements MembershipService {
 
     public boolean hasRole(OAuth2AuthenticationToken oauthToken, String roleToTest) {
 
-        logger.info("adminEmail=[" + adminEmail + "]");
+        logger.info("adminEmails=[" + adminEmails + "]");
 
         if (oauthToken == null) {
             return false;
@@ -84,8 +90,8 @@ public class GoogleMembershipService implements MembershipService {
     }
 
     private boolean isAdminEmail(String email) {
-        //return (!adminRepository.findByEmail(email).isEmpty() || email.equals(adminEmail));
-        return (email.equals(adminEmail));
+        //return (!adminRepository.findByEmail(email).isEmpty() || (adminEmails.contains(email)); 
+        return (adminEmails.contains(email));
     }
 
 }
