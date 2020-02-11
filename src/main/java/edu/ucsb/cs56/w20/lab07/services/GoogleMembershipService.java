@@ -98,5 +98,24 @@ public class GoogleMembershipService implements MembershipService {
         return adminEmails;
     }
 
+    public String name(OAuth2AuthenticationToken token) {
+        if (token == null) return "";
+        return token.getPrincipal().getAttributes().get("name").toString();
+    }
+
+    public String firstName(OAuth2AuthenticationToken token) {
+        if (token == null) return "";
+        return token.getPrincipal().getAttributes().get("given_name").toString();
+    }
+
+    public String lastName(OAuth2AuthenticationToken token) {
+        if (token == null) return "";
+        return token.getPrincipal().getAttributes().get("family_name").toString();
+    }
+
+    public String email(OAuth2AuthenticationToken token) {
+        if (token == null) return "";
+        return token.getPrincipal().getAttributes().get("email").toString();
+    }
 
 }
