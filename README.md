@@ -50,9 +50,9 @@ localhost.
 
     Follow the instructions here: <https://ucsb-cs56.github.io/topics/oauth_github_setup>.
 
-    - For the application url, use <https://cs56-f19-lab06-githubid.herokuapp.com>
-    - For the callback url, also use <https://cs56-f19-lab06-githubid.herokuapp.com>
-    - Note that on Heroku, you typically need use `https` not `http`
+    - For the application url, use <https://cs56-w20-lab07-githubid.herokuapp.com>
+    - For the callback url, use <https://cs56-w20-lab07-githubid.herokuapp.com/login/oauth2/code/google>
+    - Note that on Heroku, you typically need use `https` not `http`, and be sure to substitute YOUR githubid in place of githubid; also if you abbreviated your Heroku application name, use that in the callback url.
 
 2.  You must then copy the file `heroku.json.SAMPLE` to the file `heroku.json`.
 
