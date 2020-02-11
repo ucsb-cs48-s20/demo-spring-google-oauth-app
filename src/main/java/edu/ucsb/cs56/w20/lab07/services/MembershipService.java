@@ -31,4 +31,12 @@ public interface MembershipService {
 
     public List<String> getAdminEmails();
 
+    public String name(OAuth2AuthenticationToken oAuth2AuthenticationToken);
+
+    public String firstName(OAuth2AuthenticationToken oAuth2AuthenticationToken);
+
+    public String lastName(OAuth2AuthenticationToken oAuth2AuthenticationToken);
+
+    public String email(OAuth2AuthenticationToken oAuth2AuthenticationToken);
+
 }
