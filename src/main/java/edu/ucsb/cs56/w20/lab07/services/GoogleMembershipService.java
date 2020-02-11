@@ -94,4 +94,9 @@ public class GoogleMembershipService implements MembershipService {
         return (adminEmails.contains(email));
     }
 
+    public List<String> getAdminEmails() {
+        return adminEmails;
+    }
+
+
 }
