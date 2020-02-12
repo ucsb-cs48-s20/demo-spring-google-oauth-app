@@ -13,7 +13,6 @@ import org.springframework.security.oauth2.client.authentication.OAuth2Authentic
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
-
 /**
  * Service object that wraps the UCSB Academic Curriculum API
  */
@@ -21,55 +20,57 @@ import org.springframework.stereotype.Service;
 public class GoogleMembershipService implements MembershipService {
 
     private Logger logger = LoggerFactory.getLogger(GoogleMembershipService.class);
-    
+
     // The trailing colon sets empty string as the default
     // The DefaultConversionService in Config.java allows the List to be used.
-    
+
     @Value("${app.admin.emails:}")
-    final private List<String> adminEmails=new ArrayList<String>();
+    final private List<String> adminEmails = new ArrayList<String>();
 
     @Value("${app.member.hosted-domain}")
-    final private String memberHostedDomain="";
+    final private String memberHostedDomain = "";
 
     @Autowired
     private OAuth2AuthorizedClientService clientService;
 
-    // @Autowired
-    // private AdminRepository adminRepository;
-
     /**
-     * is current logged in user a member but NOT an admin of the google org
+     * @param token OAuth token
+     * @return true if current logged-in user is a member but not an admin
      */
-    public boolean isMember(OAuth2AuthenticationToken oAuth2AuthenticationToken) {
-        return hasRole(oAuth2AuthenticationToken, "member");
-    }
-
-    /** is current logged in user a member of the google org */
-    public boolean isAdmin(OAuth2AuthenticationToken oAuth2AuthenticationToken) {
-        return hasRole(oAuth2AuthenticationToken, "admin");
+    public boolean isMember(OAuth2AuthenticationToken token) {
+        return hasRole(token, "member");
     }
 
     /**
-     * is current logged in user has role
+     * @param token OAuth token
+     * @return true if current logged-in user is an Admin
+     */
+
+    public boolean isAdmin(OAuth2AuthenticationToken token) {
+        return hasRole(token, "admin");
+    }
+
+    /**
+     * does current logged in user have this role
      *
-     * @param roleToTest "member" or "admin"
+     * @param token OAuth token
+     * @param roleToTest "member" or "admin" (lowercase)
      * @return if the current logged in user has that role
      */
 
-    public boolean hasRole(OAuth2AuthenticationToken oauthToken, String roleToTest) {
+    public boolean hasRole(OAuth2AuthenticationToken token, String roleToTest) {
 
         logger.info("adminEmails=[" + adminEmails + "]");
 
-        if (oauthToken == null) {
+        if (token == null) {
             return false;
         }
         if (clientService == null) {
             logger.error(String.format("unable to obtain autowired clientService"));
             return false;
         }
-        OAuth2AuthorizedClient client = clientService
-                .loadAuthorizedClient(oauthToken.getAuthorizedClientRegistrationId(), oauthToken.getName());
-        OAuth2User oAuth2User = oauthToken.getPrincipal();
+       
+        OAuth2User oAuth2User = token.getPrincipal();
 
         String email = (String) oAuth2User.getAttributes().get("email");
         // hd is the domain of the email, e.g. ucsb.edu
@@ -90,7 +91,8 @@ public class GoogleMembershipService implements MembershipService {
     }
 
     private boolean isAdminEmail(String email) {
-        //return (!adminRepository.findByEmail(email).isEmpty() || (adminEmails.contains(email)); 
+        // return (!adminRepository.findByEmail(email).isEmpty() ||
+        // (adminEmails.contains(email));
         return (adminEmails.contains(email));
     }
 
@@ -99,22 +101,26 @@ public class GoogleMembershipService implements MembershipService {
     }
 
     public String name(OAuth2AuthenticationToken token) {
-        if (token == null) return "";
+        if (token == null)
+            return "";
         return token.getPrincipal().getAttributes().get("name").toString();
     }
 
     public String firstName(OAuth2AuthenticationToken token) {
-        if (token == null) return "";
+        if (token == null)
+            return "";
         return token.getPrincipal().getAttributes().get("given_name").toString();
     }
 
     public String lastName(OAuth2AuthenticationToken token) {
-        if (token == null) return "";
+        if (token == null)
+            return "";
         return token.getPrincipal().getAttributes().get("family_name").toString();
     }
 
     public String email(OAuth2AuthenticationToken token) {
-        if (token == null) return "";
+        if (token == null)
+            return "";
         return token.getPrincipal().getAttributes().get("email").toString();
     }
 

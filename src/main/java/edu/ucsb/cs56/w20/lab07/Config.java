@@ -9,7 +9,7 @@ import org.springframework.core.convert.support.DefaultConversionService;
 public class Config {
 
     /**
-     * Conversion service to allow using List<String> on Value annotations for
+     * Conversion service to allow using Lists on Value annotations for
      * application.properties values. See:
      * https://stackoverflow.com/a/29970335/6454116
      * 
