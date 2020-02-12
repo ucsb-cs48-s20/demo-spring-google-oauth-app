@@ -46,12 +46,11 @@ localhost.
 1.  Go to the heroku.com dashboard and create a new Heroku app with the name `cs56-f19-lab06-githubid`, replacing `github` with your
     github id.
 
-1.  Now you must GitHub OAuth app for `https://cs56-f19-lab06-githubid.herokuapp.com` and obtain the client-id and client-secret.
+1.  Now you must configure a Google OAuth app for `https://cs56-w20-lab07-githubid.herokuapp.com` and obtain the client-id and client-secret.
 
-    Follow the instructions here: <https://ucsb-cs56.github.io/topics/oauth_github_setup>.
-
-    - For the application url, use <https://cs56-w20-lab07-githubid.herokuapp.com>
-    - For the callback url, use <https://cs56-w20-lab07-githubid.herokuapp.com/login/oauth2/code/google>
+    Follow the instructions here: <https://ucsb-cs56.github.io/topics/oauth_google_setup>.
+    
+    - For the callback url, use <https://cs56-w20-lab07-githubid.herokuapp.com/login/oauth2/code/google>  
     - Note that on Heroku, you typically need use `https` not `http`, and be sure to substitute YOUR githubid in place of githubid; also if you abbreviated your Heroku application name, use that in the callback url.
 
 2.  You must then copy the file `heroku.json.SAMPLE` to the file `heroku.json`.
@@ -72,12 +71,12 @@ localhost.
     The name of the Heroku app should match yours (e.g. change `githubid` to your githubid)
 
     ```
-    ./setHerokuEnv.py --app cs56-f19-lab06-githubid
+    ./setHerokuEnv.py --app cs56-w20-lab07-githubid
     ```
 
     You should now be able to go to the Heroku Dashboard for your app online, e.g. this link (replacing `githubid` with yours)
 
-    - <https://dashboard.heroku.com/apps/cs56-f19-lab06-githubid/settings>
+    - <https://dashboard.heroku.com/apps/cs56-w20-lab07-githubid/settings>
 
     Click "Reveal Config Vars". You should see a configuration variable called `SPRING_APPLICATION_JSON` that contains
     the values that you entered for client id and client secret (i.e the contents of `heroku.json`).
