@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AdminController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">lab07</a> &gt; <a href="index.source.html" class="el_package">edu.ucsb.cs56.w20.lab07.controllers</a> &gt; <span class="el_source">AdminController.java</span></div><h1>AdminController.java</h1><pre class="source lang-java linenums">package edu.ucsb.cs56.w20.lab07.controllers;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import edu.ucsb.cs56.w20.lab07.services.MembershipService;
+import edu.ucsb.cs56.w20.lab07.services.ValidEmailService;
+import edu.ucsb.cs56.w20.lab07.entities.Admin;
+import edu.ucsb.cs56.w20.lab07.repositories.AdminRepository;
+import java.util.Optional;
+import javax.validation.Valid;
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+@Controller
+public class AdminController {
+
+<span class="nc" id="L27">    private Logger logger = LoggerFactory.getLogger(AdminController.class);</span>
+
+    @Autowired
+    private MembershipService ms;
+
+    private AdminRepository adminRepository;
+
+    @Autowired
+<span class="nc" id="L35">    public AdminController(AdminRepository repo) {</span>
+<span class="nc" id="L36">        this.adminRepository = repo;</span>
+<span class="nc" id="L37">    }</span>
+
+    @GetMapping(&quot;/admin&quot;)
+    public String admin(Model model, OAuth2AuthenticationToken token,
+            RedirectAttributes redirAttrs) {
+<span class="nc" id="L42">        String role = ms.role(token);</span>
+<span class="nc bnc" id="L43" title="All 2 branches missed.">        if (!role.equals(&quot;Admin&quot;)) {</span>
+<span class="nc" id="L44">            redirAttrs.addFlashAttribute(&quot;alertDanger&quot;,</span>
+                    &quot;You do not have permission to access that page&quot;);
+<span class="nc" id="L46">            return &quot;redirect:/&quot;;</span>
+        }
+<span class="nc" id="L48">        addAdminsFromPropertiesFile();</span>
+<span class="nc" id="L49">        model.addAttribute(&quot;admins&quot;, adminRepository.findAll());</span>
+<span class="nc" id="L50">        model.addAttribute(&quot;newAdmin&quot;, new Admin());</span>
+<span class="nc" id="L51">        return &quot;admin/create&quot;;</span>
+    }
+
+    @PostMapping(&quot;/admin/delete/{id}&quot;)
+    public String deleteAdmin(@PathVariable(&quot;id&quot;) long id, Model model,
+            RedirectAttributes redirAttrs, OAuth2AuthenticationToken token) {
+<span class="nc" id="L57">        String role = ms.role(token);</span>
+<span class="nc bnc" id="L58" title="All 2 branches missed.">        if (!role.equals(&quot;Admin&quot;)) {</span>
+<span class="nc" id="L59">            redirAttrs.addFlashAttribute(&quot;alertDanger&quot;,</span>
+                    &quot;You do not have permission to access that page&quot;);
+<span class="nc" id="L61">            return &quot;redirect:/&quot;;</span>
+        }
+
+<span class="nc" id="L64">        Optional&lt;Admin&gt; admin = adminRepository.findById(id);</span>
+<span class="nc bnc" id="L65" title="All 2 branches missed.">        if (!admin.isPresent()) {</span>
+<span class="nc" id="L66">            redirAttrs.addFlashAttribute(&quot;alertDanger&quot;, &quot;Admin with that id does not exist.&quot;);</span>
+        } else {
+<span class="nc" id="L68">            String email = admin.get().getEmail();</span>
+<span class="nc bnc" id="L69" title="All 2 branches missed.">            if (ms.getAdminEmails().contains(email)) {</span>
+<span class="nc" id="L70">                redirAttrs.addFlashAttribute(&quot;alertDanger&quot;, &quot;Admin &quot; + email + &quot; was set from application properties and cannot be deleted.&quot;);    </span>
+            } else {
+<span class="nc" id="L72">                adminRepository.delete(admin.get());</span>
+<span class="nc" id="L73">                redirAttrs.addFlashAttribute(&quot;alertSuccess&quot;, &quot;Admin successfully deleted.&quot;);    </span>
+            }
+        }
+<span class="nc" id="L76">        model.addAttribute(&quot;newAdmin&quot;, new Admin());</span>
+<span class="nc" id="L77">        model.addAttribute(&quot;admins&quot;, adminRepository.findAll());</span>
+<span class="nc" id="L78">        return &quot;redirect:/admin&quot;;</span>
+    }
+
+    @PostMapping(&quot;/admin/add&quot;)
+    public String addAdmin(@Valid Admin admin, BindingResult result, Model model,
+            RedirectAttributes redirAttrs, OAuth2AuthenticationToken token) {
+<span class="nc" id="L84">        String role = ms.role(token);</span>
+<span class="nc bnc" id="L85" title="All 2 branches missed.">        if (!role.equals(&quot;Admin&quot;)) {</span>
+<span class="nc" id="L86">            redirAttrs.addFlashAttribute(&quot;alertDanger&quot;,</span>
+                    &quot;You do not have permission to access that page&quot;);
+<span class="nc" id="L88">            return &quot;redirect:/&quot;;</span>
+        }
+
+<span class="nc" id="L91">        boolean errors = false;</span>
+<span class="nc bnc" id="L92" title="All 2 branches missed.">        if (!ValidEmailService.validEmail(admin.getEmail())) {</span>
+<span class="nc" id="L93">            errors = true;</span>
+<span class="nc" id="L94">            redirAttrs.addFlashAttribute(&quot;alertDanger&quot;, &quot;Invalid email.&quot;);</span>
+        }
+<span class="nc" id="L96">        List&lt;Admin&gt; alreadyExistingAdmins = adminRepository.findByEmail(admin.getEmail());</span>
+<span class="nc bnc" id="L97" title="All 2 branches missed.">        if (!alreadyExistingAdmins.isEmpty()) {</span>
+<span class="nc" id="L98">            errors = true;</span>
+<span class="nc" id="L99">            redirAttrs.addFlashAttribute(&quot;alertDanger&quot;, &quot;An admin with that email already exists.&quot;);</span>
+        }
+<span class="nc bnc" id="L101" title="All 2 branches missed.">        if (!errors) {</span>
+<span class="nc" id="L102">            adminRepository.save(admin);</span>
+<span class="nc" id="L103">            model.addAttribute(&quot;newAdmin&quot;, new Admin());</span>
+        } else {
+<span class="nc" id="L105">            model.addAttribute(&quot;newAdmin&quot;, admin);</span>
+        }
+<span class="nc" id="L107">        model.addAttribute(&quot;admins&quot;, adminRepository.findAll());</span>
+<span class="nc" id="L108">        return &quot;redirect:/admin&quot;;</span>
+    }
+
+    private void addAdminsFromPropertiesFile() {
+<span class="nc" id="L112">        ms.getAdminEmails().forEach((email) -&gt; {</span>
+<span class="nc bnc" id="L113" title="All 2 branches missed.">            if (adminRepository.findByEmail(email).isEmpty()) {</span>
+<span class="nc" id="L114">                adminRepository.save(new Admin(email, true));</span>
+            }
+<span class="nc" id="L116">        });</span>
+<span class="nc" id="L117">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

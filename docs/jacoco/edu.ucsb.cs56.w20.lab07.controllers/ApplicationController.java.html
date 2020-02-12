@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ApplicationController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">lab07</a> &gt; <a href="index.source.html" class="el_package">edu.ucsb.cs56.w20.lab07.controllers</a> &gt; <span class="el_source">ApplicationController.java</span></div><h1>ApplicationController.java</h1><pre class="source lang-java linenums">package edu.ucsb.cs56.w20.lab07.controllers;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.stereotype.Controller;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.security.oauth2.client.registration.ClientRegistration;
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
+import org.springframework.ui.Model;
+
+@Controller
+<span class="fc" id="L16">public class ApplicationController{</span>
+
+    @Autowired
+    private ClientRegistrationRepository clientRegistrationRepository;
+
+    @GetMapping(&quot;/&quot;)
+    public String home(Model model){
+<span class="fc" id="L23">        return &quot;index&quot;;</span>
+    }
+
+    @GetMapping(&quot;/login&quot;)
+    public String getLoginPage(Model model, OAuth2AuthenticationToken oAuth2AuthenticationToken) {
+
+<span class="nc" id="L29">        Map&lt;String, String&gt; urls = new HashMap&lt;&gt;();</span>
+
+        // get around an unfortunate limitation of the API
+        // that requires an unchecked cast to Iterable&lt;ClientRegistration&gt;
+
+<span class="nc" id="L34">        @SuppressWarnings(&quot;unchecked&quot;) Iterable&lt;ClientRegistration&gt; iterable = ((Iterable&lt;ClientRegistration&gt;) clientRegistrationRepository);</span>
+<span class="nc" id="L35">        iterable.forEach(clientRegistration -&gt; urls.put(clientRegistration.getClientName(),</span>
+<span class="nc" id="L36">                &quot;/oauth2/authorization/&quot; + clientRegistration.getRegistrationId()));</span>
+
+<span class="nc" id="L38">        model.addAttribute(&quot;urls&quot;, urls);</span>
+<span class="nc" id="L39">        return &quot;login&quot;;</span>
+    }
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

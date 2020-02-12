@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AuthControllerAdvice.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">lab07</a> &gt; <a href="index.source.html" class="el_package">edu.ucsb.cs56.w20.lab07.advice</a> &gt; <span class="el_source">AuthControllerAdvice.java</span></div><h1>AuthControllerAdvice.java</h1><pre class="source lang-java linenums">package edu.ucsb.cs56.w20.lab07.advice;
+
+import org.springframework.web.bind.annotation.ModelAttribute;
+
+import edu.ucsb.cs56.w20.lab07.controllers.AppUsersController;
+import edu.ucsb.cs56.w20.lab07.entities.AppUser;
+import edu.ucsb.cs56.w20.lab07.repositories.AppUserRepository;
+import edu.ucsb.cs56.w20.lab07.services.MembershipService;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+
+@ControllerAdvice
+<span class="nc" id="L17">public class AuthControllerAdvice {</span>
+
+    @Autowired   
+    private MembershipService membershipService;
+
+    @Autowired   
+    private AppUserRepository appUserRepository;
+
+    @ModelAttribute(&quot;isLoggedIn&quot;)
+    public boolean getIsLoggedIn(OAuth2AuthenticationToken token){
+<span class="nc" id="L27">        updateLoginTable(token);</span>
+<span class="nc bnc" id="L28" title="All 2 branches missed.">        return token != null;</span>
+    }
+
+    @ModelAttribute(&quot;fname&quot;)
+    public String getFirstName(OAuth2AuthenticationToken token){
+<span class="nc" id="L33">        return membershipService.firstName(token);</span>
+    }
+
+    @ModelAttribute(&quot;lname&quot;)
+    public String getLastName(OAuth2AuthenticationToken token){
+<span class="nc" id="L38">        return membershipService.lastName(token);</span>
+    }
+
+    @ModelAttribute(&quot;name&quot;)
+    public String getName(OAuth2AuthenticationToken token){
+<span class="nc" id="L43">        return membershipService.name(token);</span>
+    }
+
+    @ModelAttribute(&quot;email&quot;)
+    public String getEmail(OAuth2AuthenticationToken token){
+<span class="nc" id="L48">        return membershipService.email(token);</span>
+    }
+
+    @ModelAttribute(&quot;picture&quot;)
+    public String getPicture(OAuth2AuthenticationToken token){
+<span class="nc bnc" id="L53" title="All 2 branches missed.">        if (token == null) return &quot;&quot;;</span>
+<span class="nc" id="L54">        return token.getPrincipal().getAttributes().get(&quot;picture&quot;).toString();</span>
+    }
+
+    @ModelAttribute(&quot;isMember&quot;)
+    public boolean getIsMember(OAuth2AuthenticationToken token){
+<span class="nc" id="L59">        return membershipService.isMember(token);</span>
+    }
+
+    @ModelAttribute(&quot;isAdmin&quot;)
+    public boolean getIsAdmin(OAuth2AuthenticationToken token){
+<span class="nc" id="L64">        return membershipService.isAdmin(token);</span>
+    }
+
+    @ModelAttribute(&quot;role&quot;)
+    public String getRole(OAuth2AuthenticationToken token){
+<span class="nc" id="L69">        return membershipService.role(token);</span>
+    }
+
+    private void updateLoginTable(OAuth2AuthenticationToken token) {
+<span class="nc bnc" id="L73" title="All 2 branches missed.">        if (token==null) return;</span>
+        
+<span class="nc" id="L75">        String email = membershipService.email(token);</span>
+<span class="nc bnc" id="L76" title="All 2 branches missed.">        if (email == null) return;</span>
+
+<span class="nc" id="L78">        List&lt;AppUser&gt; appUsers = appUserRepository.findByEmail(email);</span>
+
+<span class="nc bnc" id="L80" title="All 2 branches missed.">        if (appUsers.size()==0) {</span>
+            // No user with this email is in the AppUsers table yet, so add one
+<span class="nc" id="L82">            AppUser u = new AppUser();</span>
+<span class="nc" id="L83">            u.setEmail(email);</span>
+<span class="nc" id="L84">            u.setName(membershipService.name(token));</span>
+<span class="nc" id="L85">            appUserRepository.save(u);</span>
+        }
+<span class="nc" id="L87">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>
