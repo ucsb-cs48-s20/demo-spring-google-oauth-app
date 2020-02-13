@@ -1,1 +1,0 @@
-packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"edu.ucsb.cs56.w20.lab07"},{"l":"edu.ucsb.cs56.w20.lab07.advice"},{"l":"edu.ucsb.cs56.w20.lab07.controllers"},{"l":"edu.ucsb.cs56.w20.lab07.entities"},{"l":"edu.ucsb.cs56.w20.lab07.repositories"},{"l":"edu.ucsb.cs56.w20.lab07.services"}]
