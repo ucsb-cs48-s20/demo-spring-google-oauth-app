@@ -13,6 +13,8 @@ import org.springframework.security.oauth2.client.authentication.OAuth2Authentic
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
+import edu.ucsb.cs56.w20.lab07.repositories.AdminRepository;
+
 /**
  * Service object that wraps the UCSB Academic Curriculum API
  */
@@ -32,6 +34,9 @@ public class GoogleMembershipService implements MembershipService {
 
     @Autowired
     private OAuth2AuthorizedClientService clientService;
+
+    @Autowired
+    private AdminRepository adminRepository;
 
     /**
      * @param token OAuth token
@@ -53,7 +58,7 @@ public class GoogleMembershipService implements MembershipService {
     /**
      * does current logged in user have this role
      *
-     * @param token OAuth token
+     * @param token      OAuth token
      * @param roleToTest "member" or "admin" (lowercase)
      * @return if the current logged in user has that role
      */
@@ -69,7 +74,7 @@ public class GoogleMembershipService implements MembershipService {
             logger.error(String.format("unable to obtain autowired clientService"));
             return false;
         }
-       
+
         OAuth2User oAuth2User = token.getPrincipal();
 
         String email = (String) oAuth2User.getAttributes().get("email");
@@ -91,9 +96,7 @@ public class GoogleMembershipService implements MembershipService {
     }
 
     private boolean isAdminEmail(String email) {
-        // return (!adminRepository.findByEmail(email).isEmpty() ||
-        // (adminEmails.contains(email));
-        return (adminEmails.contains(email));
+        return !adminRepository.findByEmail(email).isEmpty() || (adminEmails.contains(email));
     }
 
     public List<String> getAdminEmails() {
