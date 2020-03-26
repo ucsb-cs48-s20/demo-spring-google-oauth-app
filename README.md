@@ -1,4 +1,13 @@
-# cs56 w20 lab07
+# cs48 s20 demo-spring-google-oauth-app
+
+This code is intended to be a demo of a minimal web app using:
+* Spring Boot as the backend
+* Thymeleaf templating and server side rendering
+* Only Bootstrap and JQuery as front-end frameworks
+* Heroku Postgres as backend db
+* Simple user management via Google OAuth
+* Admin users defined in `application.properties` or
+  overridable via `localhost.json`
 
 Starter Code
 
@@ -43,14 +52,15 @@ Starter Code
 To run on Heroku, you must go BACK to GitHub and set up a DIFFERENT client id and client secret than the one you used for
 localhost.
 
-1.  Go to the heroku.com dashboard and create a new Heroku app with the name `cs56-f19-lab06-githubid`, replacing `github` with your
-    github id.
+1.  Go to the heroku.com dashboard and create a new Heroku app.
+    Suppose this name is `cs48-s20-githubid-demoapp`
+    replacing `githubid` with your github id.
 
-1.  Now you must configure a Google OAuth app for `https://cs56-w20-lab07-githubid.herokuapp.com` and obtain the client-id and client-secret.
+1.  Now you must configure a Google OAuth app for `https://cs48-s20-githubid-demoapp.herokuapp.com` and obtain the client-id and client-secret.
 
     Follow the instructions here: <https://ucsb-cs56.github.io/topics/oauth_google_setup>.
     
-    - For the callback url, use <https://cs56-w20-lab07-githubid.herokuapp.com/login/oauth2/code/google>  
+    - For the callback url, use <https://cs48-s20-githubid-demoapp.herokuapp.com/login/oauth2/code/google>  
     - Note that on Heroku, you typically need use `https` not `http`, and be sure to substitute YOUR githubid in place of githubid; also if you abbreviated your Heroku application name, use that in the callback url.
 
 2.  You must then copy the file `heroku.json.SAMPLE` to the file `heroku.json`.
@@ -71,17 +81,17 @@ localhost.
     The name of the Heroku app should match yours (e.g. change `githubid` to your githubid)
 
     ```
-    ./setHerokuEnv.py --app cs56-w20-lab07-githubid
+    ./setHerokuEnv.py --app cs48-s20-githubid-demoapp
     ```
 
     You should now be able to go to the Heroku Dashboard for your app online, e.g. this link (replacing `githubid` with yours)
 
-    - <https://dashboard.heroku.com/apps/cs56-w20-lab07-githubid/settings>
+    - <https://dashboard.heroku.com/apps/cs48-s20-githubid-demoapp/settings>
 
     Click "Reveal Config Vars". You should see a configuration variable called `SPRING_APPLICATION_JSON` that contains
     the values that you entered for client id and client secret (i.e the contents of `heroku.json`).
 
-5.  Now you are ready to do the steps you did in lab02 to connect your Heroku App to your Github repo, and deploy your app to Heroku and see it running.
+5.  Now you are ready to do the steps to connect your Heroku App to your Github repo, and deploy your app to Heroku and see it running.
 
     Try logging in with your github account here.
 
