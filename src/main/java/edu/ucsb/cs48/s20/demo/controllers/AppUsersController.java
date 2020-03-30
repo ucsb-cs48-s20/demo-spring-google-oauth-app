@@ -1,8 +1,8 @@
-package edu.ucsb.cs56.w20.lab07.controllers;
+package edu.ucsb.cs48.s20.demo.controllers;
 
-import edu.ucsb.cs56.w20.lab07.entities.AppUser;
-import edu.ucsb.cs56.w20.lab07.repositories.AppUserRepository;
-import edu.ucsb.cs56.w20.lab07.services.MembershipService;
+import edu.ucsb.cs48.s20.demo.entities.AppUser;
+import edu.ucsb.cs48.s20.demo.repositories.AppUserRepository;
+import edu.ucsb.cs48.s20.demo.services.MembershipService;
 
 import java.util.Optional;
 

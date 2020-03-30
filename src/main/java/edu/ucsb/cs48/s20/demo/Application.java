@@ -1,10 +1,12 @@
-package edu.ucsb.cs56.w20.lab07;
+package edu.ucsb.cs48.s20.demo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.context.annotation.PropertySource;
 
+@PropertySource(value = "classpath:secrets-localhost.properties", ignoreResourceNotFound = true)
 @SpringBootApplication
 public class Application extends WebSecurityConfigurerAdapter {
 

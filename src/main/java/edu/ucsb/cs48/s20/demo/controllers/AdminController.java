@@ -1,4 +1,4 @@
-package edu.ucsb.cs56.w20.lab07.controllers;
+package edu.ucsb.cs48.s20.demo.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import edu.ucsb.cs56.w20.lab07.services.MembershipService;
-import edu.ucsb.cs56.w20.lab07.services.ValidEmailService;
-import edu.ucsb.cs56.w20.lab07.entities.Admin;
-import edu.ucsb.cs56.w20.lab07.repositories.AdminRepository;
+import edu.ucsb.cs48.s20.demo.services.MembershipService;
+import edu.ucsb.cs48.s20.demo.services.ValidEmailService;
+import edu.ucsb.cs48.s20.demo.entities.Admin;
+import edu.ucsb.cs48.s20.demo.repositories.AdminRepository;
 import java.util.Optional;
 import javax.validation.Valid;
 import java.util.List;

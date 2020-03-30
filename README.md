@@ -6,8 +6,7 @@ This code is intended to be a demo of a minimal web app using:
 * Only Bootstrap and JQuery as front-end frameworks
 * Heroku Postgres as backend db
 * Simple user management via Google OAuth
-* Admin users defined in `application.properties` or
-  overridable via `localhost.json`
+* Admin users defined in `application.properties` and overridable in `secrets-localhost.properties`
 
 Starter Code
 
@@ -17,7 +16,7 @@ Starter Code
 
 1.  You _must first_ configure a Google OAuth app for http://localhost:8080 and obtain the client-id and client-secret.
 
-    Follow the instructions here: <https://ucsb-cs56.github.io/topics/oauth_google_setup>.
+    Follow the instructions here: <https://ucsb-cs48.github.io/topics/oauth_google_setup>.
 
     - For the application url, use <http://localhost:8080>
     - For the callback url, also use <http://localhost:8080/login/oauth2/code/google>
@@ -58,7 +57,7 @@ localhost.
 
 1.  Now you must configure a Google OAuth app for `https://cs48-s20-githubid-demoapp.herokuapp.com` and obtain the client-id and client-secret.
 
-    Follow the instructions here: <https://ucsb-cs56.github.io/topics/oauth_google_setup>.
+    Follow the instructions here: <https://ucsb-cs48.github.io/topics/oauth_google_setup>.
     
     - For the callback url, use <https://cs48-s20-githubid-demoapp.herokuapp.com/login/oauth2/code/google>  
     - Note that on Heroku, you typically need use `https` not `http`, and be sure to substitute YOUR githubid in place of githubid; also if you abbreviated your Heroku application name, use that in the callback url.
