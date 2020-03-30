@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" 
+<project xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<!-- (0) <modelVersion/> -->
@@ -38,7 +38,7 @@
 	<!-- (19) <ciManagement/> -->
 	<!-- (20) <distributionManagement/> -->
 
-	<!-- copies website into /docs subdirectory to publish on 
+	<!-- copies website into /docs subdirectory to publish on
 		GitHub pages -->
 
 	<distributionManagement>
@@ -130,7 +130,7 @@
             </resource>
           </resources>
 
-	  
+
 		<plugins>
 			<!-- Gives us: mvn spring-boot:run -->
 			<plugin>
@@ -269,7 +269,7 @@
             <id>heroku</id>
             <activation>
                 <property>
-                    <name>env.HEROKU_PROPERTIES</name>
+                    <name>env.PRODUCTION_PROPERTIES</name>
                 </property>
             </activation>
             <dependencies>
@@ -284,7 +284,7 @@
                 </dependency>
             </dependencies>
             <properties>
-                <environment-properties>${env.HEROKU_PROPERTIES}</environment-properties>
+                <environment-properties>${env.PRODUCTION_PROPERTIES}</environment-properties>
             </properties>
         </profile>
     </profiles>
