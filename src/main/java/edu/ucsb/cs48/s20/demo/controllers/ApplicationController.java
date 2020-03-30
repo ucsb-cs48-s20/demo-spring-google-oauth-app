@@ -1,4 +1,4 @@
-package edu.ucsb.cs56.w20.lab07.controllers;
+package edu.ucsb.cs48.s20.demo.controllers;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.stereotype.Controller;

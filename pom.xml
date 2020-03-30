@@ -14,10 +14,10 @@
 	</parent>
 
 	<!-- (2) <groupId/> -->
-	<groupId>edu.ucsb.cs56.w20</groupId>
+	<groupId>edu.ucsb.cs48.s20</groupId>
 
 	<!-- (3) <artifactId/> -->
-	<artifactId>lab07</artifactId>
+	<artifactId>demo-spring-google-oauth-app</artifactId>
 
 	<!-- (4) <version/> -->
 	<version>0.1.0</version>
@@ -53,7 +53,7 @@
 		<maven.compiler.source>11</maven.compiler.source>
 		<maven.compiler.target>11</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<mainClass>edu.ucsb.cs56.w20.lab07.Application</mainClass>
+		<mainClass>edu.ucsb.cs48.s20.demo.Application</mainClass>
 	</properties>
 	<!-- (22) <dependencyManagement/> -->
 	<!-- (23) <dependencies/> -->
@@ -101,18 +101,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
-			<scope>runtime</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.postgresql</groupId>
-			<artifactId>postgresql</artifactId>
-			<scope>runtime</scope>
-		</dependency>
-
-		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
@@ -134,6 +122,15 @@
 	<!-- (25) <pluginRepositories/> -->
 	<!-- (26) <build/> -->
 	<build>
+
+          <resources>
+            <resource>
+              <directory>src/main/resources</directory>
+              <filtering>true</filtering>
+            </resource>
+          </resources>
+
+	  
 		<plugins>
 			<!-- Gives us: mvn spring-boot:run -->
 			<plugin>
@@ -224,5 +221,72 @@
 	</reporting>
 
 	<!-- (28) <profiles/> -->
+
+	    <profiles>
+        <profile>
+            <id>localhost</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-resources-plugin</artifactId>
+                        <version>3.1.0</version>
+                        <executions>
+                            <execution>
+                                <id>copy-resources</id>
+                                <phase>process-resources</phase>
+                                <goals>
+                                    <goal>copy-resources</goal>
+                                </goals>
+                                <configuration>
+                                    <outputDirectory>${basedir}/target/classes</outputDirectory>
+                                    <resources>
+                                        <resource>
+                                            <directory>.</directory>
+                                            <include>secrets-localhost.properties</include>
+                                        </resource>
+                                    </resources>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+            <dependencies>
+                <dependency>
+                    <groupId>com.h2database</groupId>
+                    <artifactId>h2</artifactId>
+                    <scope>runtime</scope>
+                </dependency>
+            </dependencies>
+            <properties>
+                <environment-properties />
+            </properties>
+        </profile>
+        <profile>
+            <id>heroku</id>
+            <activation>
+                <property>
+                    <name>env.HEROKU_PROPERTIES</name>
+                </property>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>org.postgresql</groupId>
+                    <artifactId>postgresql</artifactId>
+                </dependency>
+
+                <dependency>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-jdbc</artifactId>
+                </dependency>
+            </dependencies>
+            <properties>
+                <environment-properties>${env.HEROKU_PROPERTIES}</environment-properties>
+            </properties>
+        </profile>
+    </profiles>
 
 </project>

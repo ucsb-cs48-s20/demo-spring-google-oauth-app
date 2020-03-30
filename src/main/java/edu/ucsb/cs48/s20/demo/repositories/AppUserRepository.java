@@ -1,6 +1,6 @@
-package edu.ucsb.cs56.w20.lab07.repositories;
+package edu.ucsb.cs48.s20.demo.repositories;
 
-import edu.ucsb.cs56.w20.lab07.entities.AppUser;
+import edu.ucsb.cs48.s20.demo.entities.AppUser;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

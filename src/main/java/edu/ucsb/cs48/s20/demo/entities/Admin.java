@@ -1,25 +1,28 @@
-package edu.ucsb.cs56.w20.lab07.entities;
+package edu.ucsb.cs48.s20.demo.entities;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotBlank;
 
 @Entity
-public class AppUser {
+public class Admin {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @NotBlank
     private String email;
-    private String name;
 
-    public AppUser() {
+    private boolean isPermanent = false;
+
+    public Admin() {
     }
 
-    public AppUser(String email, String name) {
+    public Admin(String email, boolean isPermanent) {
         this.email = email;
-        this.name = name;
+        this.isPermanent = isPermanent;
     }
 
     public void setId(long id) {
@@ -38,11 +41,12 @@ public class AppUser {
         return email;
     }
 
-    public String getName() {
-        return name;
+    public boolean getIsPermanent() {
+        return this.isPermanent;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setIsPermanent(boolean isPermanent) {
+        this.isPermanent = isPermanent;
     }
+
 }

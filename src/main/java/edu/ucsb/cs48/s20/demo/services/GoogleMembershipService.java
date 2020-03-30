@@ -1,4 +1,4 @@
-package edu.ucsb.cs56.w20.lab07.services;
+package edu.ucsb.cs48.s20.demo.services;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +13,7 @@ import org.springframework.security.oauth2.client.authentication.OAuth2Authentic
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
-import edu.ucsb.cs56.w20.lab07.repositories.AdminRepository;
+import edu.ucsb.cs48.s20.demo.repositories.AdminRepository;
 
 /**
  * Service object that wraps the UCSB Academic Curriculum API
