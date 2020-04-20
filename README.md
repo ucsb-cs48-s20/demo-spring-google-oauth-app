@@ -39,6 +39,11 @@ Heroku credentials.
 
 # To deploy to Heroku
 
+To deploy to Heroku
+* Login to the Heroku Dashboard and create a new Heroku App
+* Link your GitHub repo to the app on the deploy screen
+* Copy your client-id and client-secret from `secrets-localhost.properties` to `secrets-heroku.properties`.   For Google OAuth, since you can configure multiple redirect URIs, it should be possible to reuse the same values.
+* Be sure that you follow the instructions in [DOCS/oauth-production.md](DOCS/oauth-production.md) to add the redirect URI for heroku to your Google OAuth app.
 
 
 # Testing
