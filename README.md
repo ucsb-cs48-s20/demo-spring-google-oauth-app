@@ -11,17 +11,40 @@ This code is intended to be a demo of a minimal web app using:
 
 Starter Code
 
-# Configuration for OAuth
+# Configuration for OAuth on localhost
 
-See instructions at <https://ucsb-cs48.github.io/topics/oauth_google_setup>
+See instructions at [DOCS/oauth-localhost.md](DOCS/oauth-localhost.md)
 
-After configuring OAuth:
-* Use `mvn spring-boot:run` to run on localhost
+# To run on `localhost`
+
+Type:
+
+```
+mvn spring-boot:run
+```
+
+# Configuration for OAuth on Heroku
+
+
+You should first create an application on the Heroku Dashboard, or using the Heroku command line tool.   You need your app name already defined before you proceed.  An app name is something such as `cs48-s20-pconrad-lab00`, and it would be the part that comes before `.herokuapp.com` in the app URL.
+
+Once you have an app name, you can set up your app for Heroku.
+
+See instructions at [DOCS/oauth-production.md](DOCS/oauth-production.md)
+
+Note that for Heroku, you will need to login with the `heroku login`
+command line tool in order to be able to run the script that setup up
+Heroku credentials.
+
+
+# To deploy to Heroku
+
+
+
+# Testing
 
 To run tests: `mvn test`
 
-Note that for Heroku, you will need to login with the `heroku login` command line tool
-in order to be able to run the script that setup up Heroku credentials.
 
 
 
